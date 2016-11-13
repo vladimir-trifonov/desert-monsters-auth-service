@@ -16,6 +16,7 @@
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "jsonwebtoken": "^7.1.9",
-    "morgan": "^1.7.0"
+    "morgan": "^1.7.0",
+    "thalassa": "git+https://8e40584b634875fd636ac36b96f1c9abfed3c332:x-oauth-basic@github.com/vladimir-trifonov/thalassa.git"
   }
 }

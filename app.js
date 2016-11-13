@@ -3,6 +3,8 @@ var app = express();
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 
+var Thalassa = require('thalassa');
+
 var jwt = require('jsonwebtoken');
 var config = require('./config');
 
@@ -21,8 +23,8 @@ apiRoutes.post('/authenticate', function (req, res) {
 		username: "dev",
 		password: "dev"
 	}, app.get('secret'), {
-		expiresIn: 86400 //24 hours
-	});
+			expiresIn: 86400 //24 hours
+		});
 
 	res.json({
 		success: true,
@@ -55,5 +57,16 @@ apiRoutes.get('/check', function (req, res) {
 });
 
 app.use('/', apiRoutes);
-app.listen(port);
+app.listen(port, function () {
+	var client = new Thalassa.Client({
+		apiport: 7070,
+		host: 'localhost',
+		log: function (i, m) {
+			console.log(m);
+		}
+	});
+
+	client.register('desert-monsters-auth-service', '1.0.0', port);
+	client.start();
+});
 console.log('Server listens at http://localhost:' + port);
