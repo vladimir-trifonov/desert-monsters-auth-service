@@ -2,15 +2,17 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
+var cors = require('cors');
 
 var Thalassa = require('thalassa');
 
 var jwt = require('jsonwebtoken');
 var config = require('./config');
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 4000;
 app.set('secret', config.secret);
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -19,15 +21,16 @@ app.use(morgan('dev'));
 var apiRoutes = express.Router();
 
 apiRoutes.post('/authenticate', function (req, res) {
+	console.log(req.body.slack_id);
 	var token = jwt.sign({
-		username: "dev",
-		password: "dev"
+		username: "test",
+		password: "test"
 	}, app.get('secret'), {
 			expiresIn: 86400 //24 hours
 		});
 
 	res.json({
-		success: true,
+		ok: true,
 		token: token
 	});
 });
