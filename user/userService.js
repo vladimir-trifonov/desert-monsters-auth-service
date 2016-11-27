@@ -25,7 +25,7 @@ module.exports = {
             error: err
           });
         }
-        return resolve(user);
+        resolve(user);
       });
     });
   }

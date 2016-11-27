@@ -1,31 +1,27 @@
 var express = require('express');
+var jwt = require('jsonwebtoken');
 var userService = require('../user/userService.js');
-var slackService = require('../slack/slackService');
+var slackService = require('../slack/slackService.js');
 
 module.exports = function (app) {
   var apiRoutes = express.Router();
 
   apiRoutes.post('/authenticate', function (req, res) {
-    userService.findBySlackID( req.body.slack_id, function (err, user) {
-      if (err) {
-        console.log(err);
-        return res.sendStatus(500);
-      }
-
-      new Promise(function (resolve, reject) {
-        if(!user) {
+    userService.findBySlackID(req.body.slack_id)
+      .then(function (user) {
+        if (!user) {
           return slackService.getUserInfo(req.body.slack_id)
             .then(userService.createUser);
         }
 
-        resolve(user);
+        return Promise.resolve(user);
       })
-      .then(function(user) {
+      .then(function (user) {
         var token = jwt.sign({
           id: user.id,
           name: user.name,
-          email : user.email,
-	        avatar : user.avatar
+          email: user.email,
+          avatar: user.avatar
         }, app.get('secret'), {
             expiresIn: 86400 //24 hours
           });
@@ -39,7 +35,6 @@ module.exports = function (app) {
         console.log(err);
         res.sendStatus(500);
       });
-    });
   });
 
   apiRoutes.use(function (req, res, next) {

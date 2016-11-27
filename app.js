@@ -5,7 +5,9 @@ var morgan = require('morgan');
 var cors = require('cors');
 var mongoose = require('mongoose');
 var Thalassa = require('thalassa');
-var jwt = require('jsonwebtoken');
+
+var config = require('./config');
+var port = process.env.PORT || 4000;
 
 var slackTerminal = require('slack-terminalize');
 // Initialize slack client
@@ -15,10 +17,7 @@ slackTerminal.init(config.SLACK_TOKEN, {
 		COMMAND_DIR: __dirname + '/slack/commands'
 	});
 
-
-var config = require('./config');
-var port = process.env.PORT || 4000;
-
+mongoose.Promise = global.Promise;
 mongoose.connect(config.database);
 
 app.set('secret', config.secret);
@@ -26,9 +25,10 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+
 // Init routes
-require('auth')(app);
-app.use('/users', reuire('./user/userRoutes'));
+require('./auth')(app);
+app.use('/users', require('./user/userRoutes'));
 
 app.listen(port, function () {
 	var client = new Thalassa.Client({
