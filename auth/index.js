@@ -20,7 +20,6 @@ module.exports = function (app) {
         var token = jwt.sign({
           id: user.id,
           name: user.name,
-          email: user.email,
           avatar: user.avatar
         }, app.get('secret'), {
             expiresIn: 86400 //24 hours
@@ -28,7 +27,12 @@ module.exports = function (app) {
 
         res.json({
           ok: true,
-          token: token
+          token: token,
+          profile: {
+            id: user.id,
+            name: user.name,
+            avatar: user.avatar
+          }
         });
       })
       .catch(function (err) {

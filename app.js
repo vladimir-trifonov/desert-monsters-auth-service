@@ -32,15 +32,17 @@ app.use('/users', require('./user/userRoutes'));
 
 app.listen(port, function () {
 	var client = new Thalassa.Client({
-		apiport: 7070,
-		host: 'localhost',
+		apiport: 80,
+		host: 'desertmonstersserviceregistry-93127.onmodulus.net',
 		log: function (i, m) {
 			console.log(m);
 		}
 	});
 
-	client.register('desert-monsters-auth-service', '1.0.0', port);
+	client.register('desert-monsters-auth-service', '1.0.0', port, {
+		url: 'desertmonstersauthservice-93164.onmodulus.net'
+	});
 	client.start();
 
-	console.log('Server listens at http://localhost:' + port);
+	console.log('Server listens at port:' + port);
 });

@@ -8,7 +8,7 @@ var getUserInfo = function (username, cb) {
 			return cb(err ? err : response);
 		}
 
-		cb(response.user);
+		cb(null, response.user);
 	});
 };
 

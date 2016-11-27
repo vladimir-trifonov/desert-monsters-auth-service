@@ -21,6 +21,6 @@
     "mongoose": "^4.7.0",
     "morgan": "^1.7.0",
     "slack-terminalize": "^1.0.2",
-    "thalassa": "git+https://8e40584b634875fd636ac36b96f1c9abfed3c332:x-oauth-basic@github.com/vladimir-trifonov/thalassa.git"
+    "thalassa": "git+https://e802b2f797209723a6a5e5bd079a33a32207836d:x-oauth-basic@github.com/vladimir-trifonov/thalassa.git"
   }
 }
