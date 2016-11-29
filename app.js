@@ -41,7 +41,7 @@ app.listen(port, function () {
 			}
 		});
 
-		client.register('desert-monsters-blog-service', '1.0.0', port, {
+		client.register('desert-monsters-auth-service', '1.0.0', port, {
 			url: process.env.HOST
 		});
 		client.start();
