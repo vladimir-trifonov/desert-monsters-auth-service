@@ -31,7 +31,7 @@ require('./auth')(app);
 app.use('/users', require('./user/userRoutes'));
 
 app.listen(port, function () {
-	 if (env === 'production') {
+	 if (process.env.NODE_ENV === 'production') {
 		var Thalassa = require('thalassa');
 		var client = new Thalassa.Client({
 			apiport: 80,
@@ -41,11 +41,10 @@ app.listen(port, function () {
 			}
 		});
 
-		client.register('desert-monsters-blog-service', '1.0.0', config.port, {
+		client.register('desert-monsters-blog-service', '1.0.0', port, {
 			url: process.env.HOST
 		});
 		client.start();
-
 	}
 
 	console.log('Server listens at port:' + port);
