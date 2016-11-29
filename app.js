@@ -31,18 +31,22 @@ require('./auth')(app);
 app.use('/users', require('./user/userRoutes'));
 
 app.listen(port, function () {
-	var client = new Thalassa.Client({
-		apiport: 80,
-		host: 'desertmonstersserviceregistry-93127.onmodulus.net',
-		log: function (i, m) {
-			console.log(m);
-		}
-	});
+	 if (env === 'production') {
+		var Thalassa = require('thalassa');
+		var client = new Thalassa.Client({
+			apiport: 80,
+			host: process.env.SERVICE_REGISTRY,
+			log: function (i, m) {
+				console.log(m);
+			}
+		});
 
-	client.register('desert-monsters-auth-service', '1.0.0', port, {
-		url: 'desertmonstersauthservice-93164.onmodulus.net'
-	});
-	client.start();
+		client.register('desert-monsters-blog-service', '1.0.0', config.port, {
+			url: process.env.HOST
+		});
+		client.start();
+
+	}
 
 	console.log('Server listens at port:' + port);
 });
