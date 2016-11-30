@@ -9,7 +9,7 @@ module.exports = {
         }
         
         resolve({
-          name: user.real_name,
+          name: user.real_name || user.name,
           email: user.profile.email,
           avatar: user.profile.image_192,
           slackID: slackID
